@@ -20,7 +20,7 @@ StudentContact.init({
   },
   fullName: {
     type: DataTypes.STRING(100),
-    allowNull: true,
+    allowNull: false,
     field: 'full_name'
   },
   phone: {

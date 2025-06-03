@@ -1,0 +1,28 @@
+extends ../layout.pug
+
+block content
+  .container.mt-5
+    h1 Bienvenido a New Art
+    p.text-muted La academia de música y danza donde el arte se encuentra con la pasión.
+
+    hr
+
+    .row
+      .col-md-6
+        h3 Nuestras actividades
+        p Descubre las clases disponibles y encuentra tu nueva pasión artística.
+        a.btn.btn-primary(href='/actividades') Ver actividades
+
+      .col-md-6
+        h3 Reserva de aulas
+        p ¿Necesitas un espacio para ensayar o dar clase? Solicita tu reserva online.
+        a.btn.btn-outline-primary(href='/reserva') Solicitar reserva
+
+    hr
+
+    h4 Últimas noticias
+    ul
+      li
+        a(href='/noticias/1') ¡Nuevo curso de guitarra moderna en julio!
+      li
+        a(href='/noticias/2') Abierto el plazo de matrícula para el próximo trimestre

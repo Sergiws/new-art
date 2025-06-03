@@ -9,11 +9,11 @@ ActivityType.init({
     autoIncrement: true,
     primaryKey: true
   },
-  typeName: {
+  name: {
     type: DataTypes.STRING(50),
     allowNull: false,
     unique: true,
-    field: 'type_name'
+    field: 'name'
   },
   description: {
     type: DataTypes.TEXT,

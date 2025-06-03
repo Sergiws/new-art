@@ -6,6 +6,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import db from './config/db.js';
 import './model/loadModels.js';
+import publicRouter from './router/public.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,19 +24,16 @@ db.authenticate()
 
 // Static routes
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/bootstrap', express.static(path.join(__dirname, '../node_modules/bootstrap/dist')));
-
+app.use('/bootstrap', express.static(path.resolve('node_modules/bootstrap/dist')));
 
 // View engine
 app.set('views', path.join(__dirname, 'view'));
 app.set('view engine', 'pug');
 
 // Routes
-app.get('/', (req, res) => {
-  res.render('index', { title: 'Bienvenido a New Art' });
-});
+app.use('/', publicRouter);
 
 // Server
 app.listen(PORT, () => {
-  console.log(`🟢 Servidor escuchando en http://localhost:${PORT}`);
+  console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
