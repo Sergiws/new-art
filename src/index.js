@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import db from './config/db.js';
 import './model/loadModels.js';
 import publicRouter from './router/public.js';
+import adminRouter from './router/admin.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -25,6 +26,7 @@ db.authenticate()
 // Static routes
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bootstrap', express.static(path.resolve('node_modules/bootstrap/dist')));
+app.use('/bootstrap-icons', express.static(path.resolve('node_modules/bootstrap-icons/font')));
 
 // View engine
 app.set('views', path.join(__dirname, 'view'));
@@ -32,6 +34,7 @@ app.set('view engine', 'pug');
 
 // Routes
 app.use('/', publicRouter);
+app.use('/admin',adminRouter);
 
 // Server
 app.listen(PORT, () => {

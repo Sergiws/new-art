@@ -1,0 +1,82 @@
+extends ../layout
+
+block content
+    
+    section.container
+        nav(aria-label="breadcrumb")
+            ol.breadcrumb.my-4.fs-4
+                li.breadcrumb-item
+                    a.link-underline.link-underline-opacity-0(href='/admin') Panel de Administración
+                li.breadcrumb-item
+                    a.link-underline.link-underline-opacity-0(href='/admin/aulas') Aulas
+                li.breadcrumb-item.active(aria-current='page') Aula
+
+        if room
+            .mb-3.text-end
+                a.btn.btn-primary(href='/admin/aulas/aula') Nueva aula
+
+        form.row.needs-validation.g-3.mb-3(method='POST', action='/admin/aulas/aula', enctype='multipart/form-data', novalidate)
+            input(type='hidden', name='action', id='form-action', value='save')
+            if room
+                input(type='hidden', name='id', value=room.id)
+                .col-md-8
+                    label.form-label(for='name') Nombre del Aula
+                    input#name.form-control(type='text', name='name', required, value=room.name)
+                    .invalid-feedback Requerido
+                .col-md-4
+                    label.form-label(for='capacity') Aforo
+                    input#capacity.form-control(type='number', name='capacity', min="1", required, value=room.capacity)
+                    .invalid-feedback Requerido (mínimo 1)
+                .col-md-12
+                    label.form-label(for='description') Descripción
+                    textarea#description.form-control(name='description', rows="10", required) #{room.description}
+                    .invalid-feedback Requerido
+                .col-md-12
+                    label.form-label Imagen actual:
+                    .d-flex.align-items-center.gap-3
+                        img(src=`/uploads/${room.imageName}`, alt='Imagen del aula', class='img-thumbnail', style='max-width: 200px;')
+                .col-md-12
+                    label.form-label(for='image') Nueva imagen del Aula
+                    input#image.form-control(type='file', name='image', accept='image/jpeg')
+                .col-md-12.d-grid
+                    button.btn.btn-primary(type='submit', onclick="document.getElementById('form-action').value = 'update'") Guardar cambios
+                .col-md-12.d-grid
+                    button.btn.btn-danger(type='submit', onclick="document.getElementById('form-action').value = 'delete'") Eliminar
+            else
+                .col-md-8
+                    label.form-label(for='name') Nombre del Aula
+                    input#name.form-control(type='text', name='name', required)
+                    .invalid-feedback Requerido
+                .col-md-4
+                    label.form-label(for='capacity') Aforo
+                    input#capacity.form-control(type='number', name='capacity', min="1", required)
+                    .invalid-feedback Requerido (mínimo 1)
+                .col-md-12
+                    label.form-label(for='description') Descripción
+                    textarea#description.form-control(name='description', rows="10", required)
+                    .invalid-feedback Requerido
+                .col-md-12
+                    label.form-label(for='image') Imagen del Aula
+                    input#image.form-control(type='file', name='image', accept='image/jpeg', required)
+                    .invalid-feedback Requerido (Solo imágenes .jpg)
+                .col-md-12.d-grid
+                    button.btn.btn-primary(type='submit',onclick="document.getElementById('form-action').value = 'save'") Añadir aula
+                
+    
+    script.
+        //- Bootstrap form check
+        (() => {
+          'use strict'
+
+          const forms = document.querySelectorAll('.needs-validation')
+
+          Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+              if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+              }
+              form.classList.add('was-validated')
+            }, false)
+          })
+        })()

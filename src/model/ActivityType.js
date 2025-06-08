@@ -12,8 +12,7 @@ ActivityType.init({
   name: {
     type: DataTypes.STRING(50),
     allowNull: false,
-    unique: true,
-    field: 'name'
+    unique: true
   },
   description: {
     type: DataTypes.TEXT,

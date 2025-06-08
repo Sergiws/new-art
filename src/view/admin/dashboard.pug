@@ -1,0 +1,34 @@
+extends ../layout
+
+block content
+    section.container
+        nav(aria-label="breadcrumb")
+            ol.breadcrumb.my-4.fs-4
+                li.breadcrumb-item.active(aria-current='page') Panel de Administración
+
+        .row.g-3.mb-3
+            .col-sm-12.col-md-6.col-lg-4
+                a.border.btn.btn-light.py-4.d-flex.flex-column.gap-3(href="/admin/actividades")
+                    i.bi.bi-journal-bookmark-fill.display-1.mb-2
+                    h2.h5.mb-0 Actividades
+            .col-sm-12.col-md-6.col-lg-4
+                a.border.btn.btn-light.py-4.d-flex.flex-column.gap-3(href="/admin/reservas")
+                    i.bi.bi-calendar4-week.display-1.mb-2
+                    h2.h5.mb-0 Reservas
+            .col-sm-12.col-md-6.col-lg-4
+                a.border.btn.btn-light.py-4.d-flex.flex-column.gap-3(href="/admin/aulas")
+                    i.bi.bi-door-open-fill.display-1.mb-2
+                    h2.h5.mb-0 Aulas
+            .col-sm-12.col-md-6.col-lg-4
+                a.border.btn.btn-light.py-4.d-flex.flex-column.gap-3(href="/admin/alumnos")
+                    i.bi.bi-people-fill.display-1.mb-2
+                    h2.h5.mb-0 Alumnos
+            .col-sm-12.col-md-6.col-lg-4
+                a.border.btn.btn-light.py-4.d-flex.flex-column.gap-3(href="/admin/profesores")
+                    i.bi.bi-person-badge.display-1.mb-2
+                    h2.h5.mb-0 Profesores
+            .col-sm-12.col-md-6.col-lg-4
+                a.border.btn.btn-light.py-4.d-flex.flex-column.gap-3(href="/admin/noticias")
+                    i.bi.bi-newspaper.display-1.mb-2
+                    h2.h5.mb-0 Noticias
+            

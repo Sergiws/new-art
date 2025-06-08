@@ -1,28 +1,26 @@
-extends ../layout.pug
+extends ../layout
 
 block content
-  .container.mt-5
-    h1 Bienvenido a New Art
-    p.text-muted La academia de música y danza donde el arte se encuentra con la pasión.
+    section.home-hero
+        .carousel.slide(data-bs-ride="carousel")
+            .home-hero__carousel-inner.carousel-inner.position-relative
+                .home__hero-overlay
 
-    hr
+                .home-hero__text.text-center.text-white
+                    h1 Bienvenido a New Art
+                    p Tu espacio para la música y la danza en Albacete
+                    .d-flex.flex-column.flex-lg-row.justify-content-center.gap-3
+                        a.btn.btn-primary(href="/actividades") Ver actividades
+                        a.btn.btn-light(href="/reserva") Reservar Aula
 
-    .row
-      .col-md-6
-        h3 Nuestras actividades
-        p Descubre las clases disponibles y encuentra tu nueva pasión artística.
-        a.btn.btn-primary(href='/actividades') Ver actividades
+                .carousel-item.home-hero__carousel-item.active(data-bs-interval="10000")
+                    img.home-hero__img.d-block.w-100(src="/img/hero1.jpg", alt="Primera imagen")
+                .carousel-item.home-hero__carousel-item(data-bs-interval="10000")
+                    img.home-hero__img.d-block.w-100(src="/img/hero2.jpg", alt="Segunda imagen")
+                .carousel-item.home-hero__carousel-item(data-bs-interval="10000")
+                    img.home-hero__img.d-block.w-100(src="/img/hero3.jpg", alt="Tercera imagen")
+                .carousel-item.home-hero__carousel-item(data-bs-interval="10000")
+                    img.home-hero__img.d-block.w-100(src="/img/hero4.jpg", alt="Cuarta imagen")
 
-      .col-md-6
-        h3 Reserva de aulas
-        p ¿Necesitas un espacio para ensayar o dar clase? Solicita tu reserva online.
-        a.btn.btn-outline-primary(href='/reserva') Solicitar reserva
+    section.home-activities
 
-    hr
-
-    h4 Últimas noticias
-    ul
-      li
-        a(href='/noticias/1') ¡Nuevo curso de guitarra moderna en julio!
-      li
-        a(href='/noticias/2') Abierto el plazo de matrícula para el próximo trimestre
