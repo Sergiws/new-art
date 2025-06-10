@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+  .mt-3
+    p.text-center.mb-3 Seleccione un día para consultar el horario
+
+    .container.text-start.my-4
+        button.btn.btn-warning(type="button", onclick="history.back()")
+            i.bi.bi-arrow-left.me-3
+            | Volver
+
+    section.calendar.container.mb-3
+        h3.text-center #{calendar.monthName} #{calendar.year}
+
+        .calendar-grid(style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px;")
+            each day in ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']
+                div.text-center.fw-bold= day
+
+            each dayObj in calendar.days
+                if dayObj.empty
+                    div
+                else if !dayObj.clickable
+                    div(style="padding: 10px; background: #eee; text-align: center; border-radius: 5px; color: #999;")= dayObj.day
+                else
+                    a(href=dayObj.link, style="text-decoration: none;")
+                        div(style="padding: 10px; background: #007bff; color: white; text-align: center; border-radius: 5px;")= dayObj.day

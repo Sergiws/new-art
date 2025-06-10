@@ -36,6 +36,15 @@ ActivitySchedule.init({
     type: DataTypes.TIME,
     allowNull: false,
     field: 'end_time'
+  },
+  roomId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    field: 'room_id',
+    references: {
+      model: 'room',
+      key: 'id'
+    }
   }
 }, {
   sequelize: db,

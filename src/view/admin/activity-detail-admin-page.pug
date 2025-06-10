@@ -1,0 +1,198 @@
+extends ../layout
+
+block content
+    
+    section.container
+        nav(aria-label="breadcrumb")
+            ol.breadcrumb.my-4.fs-4
+                li.breadcrumb-item
+                    a.link-underline.link-underline-opacity-0(href='/admin') Panel de Administración
+                li.breadcrumb-item
+                    a.link-underline.link-underline-opacity-0(href='/admin/actividades') Actividades
+                li.breadcrumb-item.active(aria-current='page') Actividad
+
+        if activity
+            .mb-3.text-end
+                a.btn.btn-primary(href='/admin/actividades/actividad') Nueva actividad
+
+        each error in errors
+            .mb-3.alert.alert-danger.text-center #{error}
+
+        form.row.needs-validation.g-3.mb-3(method='POST', action='/admin/actividades/actividad', enctype='multipart/form-data', novalidate)
+            input(type='hidden', name='action', id='form-action', value='save')
+            if activity
+                if activity.id
+                    input(type='hidden', name='id', value=activity.id)
+
+                .col-md-7
+                    label.form-label(for='name') Nombre de la Actividad
+                    input#name.form-control(type='text', name='name', required, value=activity.name)
+                    .invalid-feedback Requerido
+                .col-md-5
+                    label.form-label(for='teacherId') Profesor
+                    select#teacherId.form-select(name='teacherId', required)
+                        option(value='', disabled selected) Seleccionar profesor
+                        each teacher in teachers
+                            option(
+                                value=teacher.id,
+                                selected=teacher.id == activity.teacherId
+                            ) #{teacher.fullName}
+                .col-md-12
+                    label.form-label(for='description') Descripción
+                    textarea#description.form-control(name='description', rows="10", required)= activity.description
+                    .invalid-feedback Requerido
+                .col-md-12
+                    label.form-label Imagen actual:
+                    .d-flex.align-items-center.gap-3
+                        img(src=`/uploads/${activity.imageName}`, alt='Imagen actual', class='img-thumbnail', style='max-width: 200px;')
+                .col-md-12
+                    label.form-label(for='image') Nueva imagen de la Actividad
+                    input#image.form-control(type='file', name='image', accept='image/jpeg')
+                .col-md-12
+                    h4.mt-4.mb-3 Horarios de la actividad
+
+                    #schedule-container
+                        if activity && activity.schedules
+                            each s, i in activity.schedules
+                                .schedule-entry.row.g-3.mb-3(data-index=i)
+                                    input(type='hidden', name=`schedule[${i}][dayOfWeek]`, value=s.dayOfWeek)
+                                    .col-md-3
+                                        label.form-label Día
+                                        select.form-select(name=`schedule[${i}][dayOfWeek]`, required)
+                                            option(value='') Seleccionar día
+                                            option(value='1', selected=s.dayOfWeek==1) Lunes
+                                            option(value='2', selected=s.dayOfWeek==2) Martes
+                                            option(value='3', selected=s.dayOfWeek==3) Miércoles
+                                            option(value='4', selected=s.dayOfWeek==4) Jueves
+                                            option(value='5', selected=s.dayOfWeek==5) Viernes
+                                    .col-md-3
+                                        label.form-label Hora de inicio
+                                        input.form-control(type='time', name=`schedule[${i}][startTime]`, value=s.startTime, required)
+                                    .col-md-3
+                                        label.form-label Hora de fin
+                                        input.form-control(type='time', name=`schedule[${i}][endTime]`, value=s.endTime, required)
+                                    .col-md-3
+                                        label.form-label Aula
+                                        select.form-select(name=`schedule[${i}][roomId]`, required)
+                                            option(value='') Seleccionar aula
+                                            each room in rooms
+                                                option(value=room.id, selected=s.roomId==room.id) #{room.name}
+                                    .col-md-12.d-flex.justify-content-end
+                                        button.btn.btn-outline-danger.btn-remove-schedule(type='button') 🗑️ Eliminar horario
+
+                    #new-schedules
+                    .d-grid.mt-3
+                        button#addScheduleBtn.btn.btn-secondary(type='button') Añadir nuevo horario
+                .col-md-12.d-grid
+                    button.btn.btn-primary(type='submit', onclick="document.getElementById('form-action').value = 'update'") Guardar cambios
+                .col-md-12.d-grid
+                    button.btn.btn-danger(type='submit', onclick="document.getElementById('form-action').value = 'delete'") Eliminar
+            else
+                .col-md-7
+                    label.form-label(for='name') Nombre de la Actividad
+                    input#name.form-control(type='text', name='name', required)
+                    .invalid-feedback Requerido
+                .col-md-5
+                    label.form-label(for='teacherId') Profesor
+                    select#teacherId.form-select(name='teacherId' ,required)
+                        option(selected, disabled, value='') Seleccionar profesor
+                        each teacher in teachers
+                            option(value=teacher.id) #{teacher.fullName}
+                .col-md-12
+                    label.form-label(for='description') Descripción
+                    textarea#description.form-control(name='description', rows="10", required)
+                    .invalid-feedback Requerido
+                .col-md-12
+                    label.form-label(for='image') Imagen de la Actividad
+                    input#image.form-control(type='file', name='image', accept='image/jpeg', required)
+                    .invalid-feedback Requerido (Solo imágenes .jpg)
+                .col-md-12
+                    h4.mt-4.mb-3 Horarios de la actividad
+
+                    #schedule-container
+                    #new-schedules
+                    .d-grid.mt-3
+                        button#addScheduleBtn.btn.btn-secondary(type='button') Añadir nuevo horario
+
+                .col-md-12.d-grid
+                    button.btn.btn-primary(type='submit',onclick="document.getElementById('form-action').value = 'save'") Añadir actividad
+
+    script.
+        //- Bootstrap form check
+        (() => {
+          'use strict'
+
+          const forms = document.querySelectorAll('.needs-validation')
+
+          Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+              if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+              }
+              form.classList.add('was-validated')
+            }, false)
+          })
+        })()
+
+    - const scheduleIndex = activity && activity.schedules ? activity.schedules.length : 0
+    script.
+        const rooms = !{JSON.stringify(rooms)};
+        let scheduleIndex = !{scheduleIndex};
+
+        document.getElementById('addScheduleBtn')?.addEventListener('click', () => {
+            const container = document.getElementById('new-schedules');
+
+            const entry = document.createElement('div');
+            entry.className = 'schedule-entry row g-3 mb-3';
+            entry.setAttribute('data-index', scheduleIndex);
+
+            const roomOptions = rooms.map(room => 
+                `<option value="${room.id}">${room.name}</option>`
+            ).join('');
+
+            entry.innerHTML = `
+                <div class="col-md-3">
+                    <label class="form-label">Día</label>
+                    <select name="schedule[${scheduleIndex}][dayOfWeek]" class="form-select" required>
+                        <option value="">Seleccionar día</option>
+                        <option value="1">Lunes</option>
+                        <option value="2">Martes</option>
+                        <option value="3">Miércoles</option>
+                        <option value="4">Jueves</option>
+                        <option value="5">Viernes</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Hora de inicio</label>
+                    <input type="time" name="schedule[${scheduleIndex}][startTime]" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Hora de fin</label>
+                    <input type="time" name="schedule[${scheduleIndex}][endTime]" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Aula</label>
+                    <select name="schedule[${scheduleIndex}][roomId]" class="form-select" required>
+                        <option value="">Seleccionar aula</option>
+                        ${roomOptions}
+                    </select>
+                </div>
+                <div class="col-md-12 d-flex justify-content-end">
+                    <button type="button" class="btn btn-outline-danger btn-remove-schedule">🗑️ Eliminar horario</button>
+                </div>
+            `;
+            container.appendChild(entry);
+            entry.querySelector('.btn-remove-schedule').addEventListener('click', () => {
+                entry.remove();
+            });
+
+            scheduleIndex++;
+        });
+
+        document.querySelectorAll('.btn-remove-schedule').forEach(button => {
+            button.addEventListener('click', () => {
+                const entry = button.closest('.schedule-entry');
+                if (entry) entry.remove();
+            });
+        });

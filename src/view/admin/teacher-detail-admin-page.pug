@@ -1,0 +1,89 @@
+extends ../layout
+
+block content
+    
+    section.container
+        nav(aria-label="breadcrumb")
+            ol.breadcrumb.my-4.fs-4
+                li.breadcrumb-item
+                    a.link-underline.link-underline-opacity-0(href='/admin') Panel de Administración
+                li.breadcrumb-item
+                    a.link-underline.link-underline-opacity-0(href='/admin/profesores') Profesores
+                li.breadcrumb-item.active(aria-current='page') Profesor
+
+        if teacher
+            .mb-3.text-end
+                a.btn.btn-primary(href='/admin/profesores/profesor') Nuevo profesor
+        
+        form.row.needs-validation.g-3.mb-3(method='POST', action='/admin/profesores/profesor', enctype='multipart/form-data', novalidate)
+            input#form-action(type='hidden', name='action', value='save')
+            if teacher
+                input(type='hidden', name='id', value=teacher.id)
+                .col-md-7
+                    label.form-label(for='fullName') Nombre completo
+                    input#fullName.form-control(type='text', name='fullName', max-length='100', required, value=teacher.fullName)
+                    .invalid-feedback Requerido, máximo 100 caracteres
+                .col-md-5
+                    label.form-label(for='phone') Número de teléfono
+                    input#phone.form-control(type='text', name='phone', max-length='20', required, value=teacher.phone)
+                    .invalid-feedback Máximo 20 caracteres
+                .col-md-8
+                    label.form-label(for='email') Correo electrónico
+                    input#email.form-control(type='email', name='email', max-length='100', required, value=teacher.email)
+                    .invalid-feedback Requerido, máximo 100 caracteres
+                .col-md-12
+                    label.form-label(for='bio') Bio
+                    textarea#bio.form-control(name='bio', rows="10", required) #{teacher.bio}
+                    .invalid-feedback Requerido
+                .col-md-12
+                    label.form-label Imagen actual:
+                    .d-flex.align-items-center.gap-3
+                        img(src=`/uploads/${teacher.imageName}`, alt='Imagen del profesor', class='img-thumbnail', style='max-width: 200px;')
+                .col-md-12
+                    label.form-label(for='image') Nueva imagen
+                    input#image.form-control(type='file', name='image', accept='image/jpeg')
+                .col-md-12.d-grid
+                    button.btn.btn-success(type='submit', onclick="document.getElementById('form-action').value = 'update'") Guardar cambios
+                .col-md-12.d-grid
+                    button.btn.btn-danger(type='submit', onclick="document.getElementById('form-action').value = 'delete'") Eliminar
+            else
+                .col-md-7
+                    label.form-label(for='fullName') Nombre completo
+                    input#fullName.form-control(type='text', name='fullName', max-length='100', required)
+                    .invalid-feedback Requerido, máximo 100 caracteres
+                .col-md-5
+                    label.form-label(for='phone') Número de teléfono
+                    input#phone.form-control(type='text', name='phone', max-length='20', required)
+                    .invalid-feedback Máximo 20 caracteres
+                .col-md-8
+                    label.form-label(for='email') Correo electrónico
+                    input#email.form-control(type='email', name='email', max-length='100', required)
+                    .invalid-feedback Requerido, máximo 100 caracteres
+                .col-md-12
+                    label.form-label(for='bio') Bio
+                    textarea#bio.form-control(name='bio', rows="10", required)
+                    .invalid-feedback Requerido
+                .col-md-12
+                    label.form-label(for='image') Imagen
+                    input#image.form-control(type='file', name='image', accept='image/jpeg', required)
+                    .invalid-feedback Requerido (Solo imágenes .jpg)
+                .col-md-12.d-grid
+                    button.btn.btn-primary(type='submit',onclick="document.getElementById('form-action').value = 'save'") Añadir profesor
+
+    script.
+        //- Bootstrap form check
+        (() => {
+          'use strict'
+
+          const forms = document.querySelectorAll('.needs-validation')
+
+          Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+              if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+              }
+              form.classList.add('was-validated')
+            }, false)
+          })
+        })()

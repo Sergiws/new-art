@@ -14,10 +14,10 @@ Reservation.init({
     allowNull: false,
     field: 'requester_name'
   },
-  requesterPhone: {
-    type: DataTypes.STRING(20),
-    allowNull: true,
-    field: 'requester_phone'
+  requesterEmail: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+    field: 'requester_email'
   },
   roomId: {
     type: DataTypes.INTEGER,
@@ -25,24 +25,24 @@ Reservation.init({
     field: 'room_id',
     references: { model: 'room', key: 'id' }
   },
-  startDateTime: {
+  day: {
     type: DataTypes.DATE,
-    allowNull: false,
-    field: 'start_datetime'
+    allowNull: false
   },
-  endDateTime: {
-    type: DataTypes.DATE,
+  startTime: {
+    type: DataTypes.TIME,
     allowNull: false,
-    field: 'end_datetime'
+    field: 'start_time'
+  },
+  endTime: {
+    type: DataTypes.TIME,
+    allowNull: false,
+    field: 'end_time'
   },
   status: {
     type: DataTypes.ENUM('pending', 'accepted', 'rejected'),
     allowNull: false,
     defaultValue: 'pending'
-  },
-  notes: {
-    type: DataTypes.TEXT,
-    allowNull: true
   }
 }, {
   sequelize: db,

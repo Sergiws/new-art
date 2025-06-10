@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+    section.mt-3
+        h1.text-center.mb-3 Aulas
+        
+        .container.text-start.my-4
+            button.btn.btn-warning(type="button", onclick="history.back()")
+                i.bi.bi-arrow-left.me-3
+                | Volver
+
+        .room-list.container
+            each room in rooms
+                .card.mb-3
+                    img.room-list__img.card-img-top(src=`/uploads/${room.imageName}`, alt=room.name)
+                    .card-body
+                        h5.card-title.text-primary-emphasis #{room.name}
+                        p.room-list__description.card-text #{room.description}
+                        p.card-text.mt-auto
+                            i.bi.bi-people-fill.me-2
+                            | Aforo: #{room.capacity} personas

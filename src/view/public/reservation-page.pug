@@ -1,0 +1,50 @@
+extends ../layout
+
+block content
+    main.container.my-5
+        h1.text-center.mb-4.fw-semibold Reserva
+
+        .text-start.mt-4
+                button.btn.btn-warning(type="button", onclick="history.back()")
+                    i.bi.bi-arrow-left.me-3
+                    | Volver
+
+        section.row.g-4
+            .col-lg-5.p-5
+                img.img-fluid.rounded-3.shadow.mb-3(src=`/uploads/${room.imageName}`, alt=room.name)
+            .col-lg-7.p-lg-5.d-flex.flex-column.justify-content-center
+                h2.mb-3 #{room.name}, #{day}, #{startTime} - #{endTime}
+                form.row.needs-validation.g-3.mb-3(action='/reserva', method='POST', novalidate)
+                    input(type='hidden', name='action', value='save')
+                    input(type='hidden', name='roomId', value=room.id)
+                    input(type='hidden', name='startTime', value=startTime)
+                    input(type='hidden', name='endTime', value=endTime)
+                    input(type='hidden', name='day', value=day)
+                    .col-12
+                        label.form-label(for='requesterName') Nombre
+                        input#requesterName.form-control(type='text', name='requesterName', required)
+                        .invalid-feedback Requerido
+                    .col-12
+                        label.form-label(for='requesterEmail') Correo electrónico
+                        input#requesterEmail.form-control(type='email', name='requesterEmail', required)
+                        .invalid-feedback Requerido, formato: ejemplo@dominio
+                    .col-md-12.d-grid
+                        button.btn.btn-success(type='submit') Reservar aula
+
+    script.
+        //- Bootstrap form check
+        (() => {
+          'use strict'
+
+          const forms = document.querySelectorAll('.needs-validation')
+
+          Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+              if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+              }
+              form.classList.add('was-validated')
+            }, false)
+          })
+        })()

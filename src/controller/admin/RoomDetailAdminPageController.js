@@ -1,9 +1,9 @@
-import PageController from '../PageController.js';
+import AdminPageController from '../AdminPageController.js';
 import { Room } from '../../model/index.js';
 
-class RoomDetailAdminPageController extends PageController {
+class RoomDetailAdminPageController extends AdminPageController {
     constructor() {
-        super('admin/room-detail-page');
+        super('admin/room-detail-admin-page');
     }
 
     renderPage() {
@@ -28,7 +28,7 @@ class RoomDetailAdminPageController extends PageController {
         return this.handle(async (req, res) => {
             const action = req.body.action;
 
-            const id = req.body.id;
+            const id = parseInt(req.body.id);
             const name = req.body.name;
             const capacity = req.body.capacity;
             const description = req.body.description;
@@ -36,9 +36,9 @@ class RoomDetailAdminPageController extends PageController {
 
             switch (action) {
                 case 'save':
-                    const aula = await Room.create({ name, capacity, description, imageName });
+                    const newRoom = await Room.create({ name, capacity, description, imageName });
 
-                    res.redirect(`/admin/aulas/aula?id=${aula.id}`)
+                    res.redirect(`/admin/aulas/aula?id=${newRoom.id}`)
                     break;
                 case 'update':
                     const fieldsToUpdate = { name, capacity, description };

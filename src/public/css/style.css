@@ -17,12 +17,65 @@
 }
 
 .home-hero__img {
-    max-height: 80vh;
+    max-height: 100vh;
     object-fit: cover;
 }
 
 .home-hero-carousel__item {
     transition: 2s;
+}
+
+.activity__description {
+    white-space: pre-line;
+}
+
+.teacher-list__bio {
+    white-space: pre-line;
+}
+
+.room-list__img {
+    height: 300px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.room-list__description {
+    white-space: pre-line;
+}
+
+.timetable__slots {
+    position: relative;
+    height: 100%;
+}
+
+.timetable__slot {
+    height: 120px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+}
+
+.timetable__slot--free{
+    background-color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.timetable__slot--free:hover {
+    background-color: rgb(255, 153, 0);
+    color: white;
+}
+
+.timetable__small-text {
+    font-size: 12px;
+}
+
+.timetable__slot--busy {
+    position: absolute;
+    z-index: 10;
 }
 
 @media screen and (max-width: 768px) {

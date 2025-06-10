@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+    section.container.my-3
+        h1.text-center.mb-3 Actividades
+
+        .text-start.my-4
+            button.btn.btn-warning(type="button", onclick="history.back()")
+                i.bi.bi-arrow-left.me-3
+                | Volver
+        
+        .activity-list.row.g-3
+            each activity in activities
+                .col-md-4
+                    .card
+                        img.card-img-top(src=`/uploads/${activity.imageName}`, alt=activity.name)
+                        .card-body
+                            h5.card-title #{activity.name}
+                            p.text-truncate #{activity.description}
+                            a.btn.btn-primary(href=`/actividades/${activity.id}`) Ver más

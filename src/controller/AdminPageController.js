@@ -16,7 +16,7 @@ export default class AdminPageController extends PageController {
         return async (req, res, next) => {
             try {
                 if (!this.verifySession(req, res)) {
-                    return res.redirect('/admin/login');
+                    return res.redirect('/login');
                 }
                 const data = await dataCallback(req, res);
                 res.render(this.pageName, {
@@ -30,4 +30,18 @@ export default class AdminPageController extends PageController {
             }
         };
     }
+
+    handle(actionCallback = async () => { }) {
+        return async (req, res) => {
+            try {
+                if (!this.verifySession(req, res)) {
+                    return res.redirect('/login');
+                }
+                await actionCallback(req, res);
+            } catch (error) {
+                console.error(`Error processing ${this.pageName}:`, error);
+                res.status(500).send('Error interno del servidor');
+            }
+        };
+    }    
 }

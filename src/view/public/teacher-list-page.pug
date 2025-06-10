@@ -1,0 +1,35 @@
+extends ../layout
+
+block content
+    main.mt-3
+        h1.text-center.mb-3 Profesores
+
+        .container.text-start.my-4
+            button.btn.btn-warning(type="button", onclick="history.back()")
+                i.bi.bi-arrow-left.me-3
+                | Volver
+
+        section.teacher-list
+            - let count = 0
+            each teacher in teachers
+                if count%2 == 0
+                    .bg-light(id=`teacher-${teacher.id}`)
+                        .container
+                            .row.g-0
+                                .col-lg-6
+                                    img.img-fluid.round(src=`/uploads/${teacher.imageName}`, alt=teacher.fullName)
+                                .col-lg-6.d-flex.flex-column.justify-content-center.align-items-center.p-5
+                                    h3.mb-3 #{teacher.fullName}
+                                    p.teacher-list__bio #{teacher.bio}
+                    - count++
+                else
+                    .bg-dark.text-light(id=`teacher-${teacher.id}`)
+                        .container
+                            .row.g-0
+                                .col-lg-6.d-flex.flex-column.justify-content-center.align-items-center.p-5
+                                    h3.mb-3 #{teacher.fullName}
+                                    p.teacher-list__bio #{teacher.bio}
+                                .col-lg-6
+                                    img.img-fluid.round(src=`/uploads/${teacher.imageName}`, alt=teacher.fullName)
+                    - count++
+                

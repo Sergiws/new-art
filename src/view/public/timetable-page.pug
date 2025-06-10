@@ -1,0 +1,56 @@
+extends ../layout
+
+block content
+    - const START_HOUR = 16
+    - const END_HOUR = 23
+    main.timetable.pt-3
+        h1.text-center.mb-3 Horario
+
+        .container.text-start.my-4
+            button.btn.btn-warning(type="button", onclick="history.back()")
+                i.bi.bi-arrow-left.me-3
+                | Volver
+
+        if isWeekend
+            p ¡La academia cierra el fin de semana!
+        else
+            section.container
+                p.text-center Seleccione la hora de un aula libre para reservarla.
+            
+                .row.bg-white.rounded.px-3.pt-3.g-0
+                    each room, roomIndex in rooms
+                        .col-sm-6.col-md-4.col-xl-2.mb-3
+                            .p-2
+                                .p-3.rounded.text-center.text-white.mb-2.fw-bolder(style=`background-color: hsl(${360 - roomIndex * 20}, 80%, 50%)`)
+                                    = room.name
+                            .timetable__slots
+                                - const freeSlots = availability[room.id] || []
+                                each isFree, hourIndex in freeSlots
+                                    if isFree
+                                        form(action='/reserva', method='POST')
+                                            input(type='hidden', name='room', value=room.id)
+                                            input(type='hidden', name='start', value=`${hourIndex + START_HOUR}:00`)
+                                            input(type='hidden', name='end', value=`${hourIndex + START_HOUR + 1}:00`)
+
+                                            - const year = date.getFullYear()
+                                            - const month = `${date.getMonth() + 1}`.padStart(2, '0')
+                                            - const day = `${date.getDate()}`.padStart(2, '0')
+                                            input(type='hidden', name='date', value=`${year}-${month}-${day}`)
+
+                                            input(type='hidden', name='action', value='show')
+
+                                            button.timetable__slot.timetable__slot--free.border(type='submit')
+                                                time.timetable__small-text #{hourIndex + START_HOUR}:00 - #{hourIndex + START_HOUR + 1}:00
+                                                span.text-white.fw-bold Reservar
+                                    else
+                                        .timetable__slot.border
+                                            span.timetable__small-text &nbsp;
+                                            span.text-white.fw-bold &nbsp;
+
+                                each block in schedules
+                                    if block.roomId === room.id
+                                        .timetable__slot.timetable__slot--busy(
+                                            style=`top:${block.top}px; height:${block.height}px; background-color: hsl(${360 - roomIndex * 20}, 80%, ${50 - block.top / 24}%)`
+                                        )
+                                            span.timetable__small-text.text-white #{block.startTime} - #{block.endTime}
+                                            span.fw-bold.text-white #{block.name}

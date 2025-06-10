@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+    section.container.my-5
+        h1.text-center.mb-4.fw-semibold.display-6 #{title}
+
+        .text-start.mt-4
+            button.btn.btn-warning(type="button", onclick="history.back()")
+                i.bi.bi-arrow-left.me-3
+                | Volver
+
+        .row.g-4
+            .col-lg-5.p-5
+                img.img-fluid.rounded-3.shadow(src=`/uploads/${activity.imageName}`, alt=activity.name)
+                
+                if activity.schedules
+                    h4.mt-4.mb-3 Horarios disponibles
+                    ul.list-group
+                        each schedule in activity.schedules
+                            - const diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+                            - const diaTexto = diasSemana[schedule.dayOfWeek - 1] || 'Día desconocido';                                
+                                
+                            li.list-group-item.d-flex.justify-content-between.align-items-center
+                                span #{diaTexto}, #{schedule.startTime.slice(0,5)} - #{schedule.endTime.slice(0,5)}
+                                span.badge.bg-primary.rounded-pill #{schedule.room.name}
+                else
+                    p.text-muted.mt-4 No hay horarios disponibles por el momento.
+
+            .col-lg-7.p-lg-5
+                p.text-body-emphasis.lh-lg.mb-0.activity__description #{activity.description}

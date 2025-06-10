@@ -1,0 +1,32 @@
+extends ../layout
+
+block content
+    section.container
+        nav(aria-label="breadcrumb")
+            ol.breadcrumb.my-4.fs-4
+                li.breadcrumb-item
+                    a.link-underline.link-underline-opacity-0(href='/admin') Panel de Administración
+                li.breadcrumb-item.active(aria-current='page') Profesores
+
+        .mb-3.text-end
+            a.btn.btn-primary(href='/admin/profesores/profesor') Añadir profesor
+
+        table.table.table-striped
+            thead
+                tr.table-dark
+                    th(scope='col') Id
+                    th(scope='col') Nombre
+                    th(scope='col') Email
+                    th(scope='col', style='width: 150px;') Acciones
+            tbody
+                each teacher in teachers
+                    tr
+                        td #{teacher.id}
+                        td
+                            span.d-inline-block.text-truncate(style='max-width: 200px;') #{teacher.fullName}
+                        td
+                            span.d-inline-block.text-truncate(style='max-width: 200px;') #{teacher.email}
+                        td
+                            a.btn.btn-warning.btn-sm.me-2(href='/admin/profesores/profesor?id='+teacher.id, title='Ver detalles')
+                                i.bi.bi-pencil-square
+                                |  Ver

@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+    section.container
+        nav(aria-label="breadcrumb")
+            ol.breadcrumb.my-4.fs-4
+                li.breadcrumb-item
+                    a.link-underline.link-underline-opacity-0(href='/admin') Panel de Administración
+                li.breadcrumb-item.active(aria-current='page') Reservas
+
+        table.table.table-striped
+            thead
+                tr.table-dark
+                    th(scope='col') Email
+                    th(scope='col') Reserva
+                    th(scope='col') Estado
+                    th(scope='col', style='width: 150px;') Acciones
+            tbody
+                each reservation in reservations
+                    tr
+                        td #{reservation.requesterEmail}
+                        td #{reservation.room.name}, #{reservation.day}, #{reservation.startTime} - #{reservation.endTime}
+                        td #{reservation.status}
+                        td
+                            a.btn.btn-warning.btn-sm.me-2(href='/admin/reservas/reserva?id='+reservation.id, title='Ver detalles')
+                                i.bi.bi-pencil-square
+                                |  Ver

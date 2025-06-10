@@ -1,0 +1,52 @@
+extends ../layout
+
+block content
+    section.home-hero.mb-5
+        .carousel.slide(data-bs-ride="carousel")
+            .home-hero__carousel-inner.carousel-inner.position-relative
+                .home-hero__overlay
+
+                .home-hero__text.text-center.text-white
+                    h1 Bienvenido a New Art
+                    p Tu espacio para la música y la danza en Albacete
+                    .d-flex.flex-column.flex-lg-row.justify-content-center.gap-3
+                        a.btn.btn-primary(href="/actividades") Ver actividades
+                        a.btn.btn-light(href="/reserva") Reservar Aula
+
+                .carousel-item.home-hero__carousel-item.active(data-bs-interval="10000")
+                    img.home-hero__img.d-block.w-100(src="/img/hero1.jpg", alt="Primera imagen")
+                .carousel-item.home-hero__carousel-item(data-bs-interval="10000")
+                    img.home-hero__img.d-block.w-100(src="/img/hero2.jpg", alt="Segunda imagen")
+                .carousel-item.home-hero__carousel-item(data-bs-interval="10000")
+                    img.home-hero__img.d-block.w-100(src="/img/hero3.jpg", alt="Tercera imagen")
+                .carousel-item.home-hero__carousel-item(data-bs-interval="10000")
+                    img.home-hero__img.d-block.w-100(src="/img/hero4.jpg", alt="Cuarta imagen")
+
+    section.container.mb-5
+        .d-flex.justify-content-between.align-items-start.mb-3
+            h2 Últimas actividades añadidas
+            a.btn.btn-info(href='/actividades') Ver todas
+        .activity-list.row.g-3
+            each activity in activities
+                .col-md-4
+                    .card
+                        img.card-img-top(src=`/uploads/${activity.imageName}`, alt=activity.name)
+                        .card-body
+                            h5.card-title #{activity.name}
+                            p.text-truncate #{activity.description}
+                            a.btn.btn-primary(href=`/actividades/${activity.id}`) Ver más
+
+    section.bg-light.py-5
+        .container
+            h2.mb-4 Sobre nosotros
+            .row.align-items-center.g-4
+                .col-lg-6
+                    img.img-fluid.rounded.shadow(src="/img/about-us.jpg", alt="New Art Albacete")
+                .col-lg-6
+                    h3.mb-3 New Art - Tu espacio para la música y la danza
+                    p.mb-3 Somos un centro dedicado a las artes escénicas en Albacete, ofreciendo un espacio donde la creatividad y el talento se desarrollan en un ambiente profesional y acogedor.
+                    p.mb-3 Desde nuestra fundación en 2010, hemos formado a cientos de estudiantes en diversas disciplinas artísticas, contando con profesores de amplia experiencia y trayectoria.
+                    p.mb-3 Nuestras instalaciones están equipadas con la mejor tecnología y acondicionamiento acústico para garantizar una experiencia óptima tanto para estudiantes como para profesionales.
+                    .d-flex.gap-3.mt-4
+                        a.btn.btn-primary(href="/aulas") Conoce nuestro establecimiento
+                        a.btn.btn-outline-secondary(href="/profesores") Conoce a nuestros profesores

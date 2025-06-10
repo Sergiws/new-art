@@ -8,8 +8,19 @@ import db from './config/db.js';
 import './model/loadModels.js';
 import publicRouter from './router/public.js';
 import adminRouter from './router/admin.js';
+import session from 'express-session';
 
 const app = express();
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24
+  }
+}));
+
 const PORT = process.env.PORT || 3000;
 
 const __filename = fileURLToPath(import.meta.url);
@@ -20,8 +31,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 db.authenticate()
-.then(() => { console.log('Conectado a la base de datos') })
-.catch((err) => { console.log(err) });
+  .then(() => { console.log('Conectado a la base de datos') })
+  .catch((err) => { console.log(err) });
 
 // Static routes
 app.use(express.static(path.join(__dirname, 'public')));
@@ -34,7 +45,7 @@ app.set('view engine', 'pug');
 
 // Routes
 app.use('/', publicRouter);
-app.use('/admin',adminRouter);
+app.use('/admin', adminRouter);
 
 // Server
 app.listen(PORT, () => {

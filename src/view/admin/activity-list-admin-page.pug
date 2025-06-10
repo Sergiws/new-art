@@ -1,15 +1,15 @@
 extends ../layout
 
 block content
-    section.admin-room-list.container
+    section.container
         nav(aria-label="breadcrumb")
             ol.breadcrumb.my-4.fs-4
                 li.breadcrumb-item
                     a.link-underline.link-underline-opacity-0(href='/admin') Panel de Administración
-                li.breadcrumb-item.active(aria-current='page') Aulas
+                li.breadcrumb-item.active(aria-current='page') Actividades
 
         .mb-3.text-end
-            a.btn.btn-primary(href='/admin/aulas/aula') Crear aula
+            a.btn.btn-primary(href='/admin/actividades/actividad') Añadir actividad
 
         table.table.table-striped
             thead
@@ -18,11 +18,11 @@ block content
                     th(scope='col') Nombre
                     th(scope='col', style='width: 150px;') Acciones
             tbody
-                each room in rooms
+                each activity in activities
                     tr
-                        td #{room.id}
-                        td #{room.name}
+                        td #{activity.id}
+                        td #{activity.name}
                         td
-                            a.btn.btn-warning.btn-sm.me-2(href='/admin/aulas/aula?id='+room.id, title='Ver detalles')
+                            a.btn.btn-warning.btn-sm.me-2(href='/admin/actividades/actividad?id='+activity.id, title='Ver detalles')
                                 i.bi.bi-pencil-square
                                 |  Ver

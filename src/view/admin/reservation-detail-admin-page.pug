@@ -1,0 +1,47 @@
+extends ../layout
+
+block content
+    section.container
+        nav(aria-label="breadcrumb")
+            ol.breadcrumb.my-4.fs-4
+                li.breadcrumb-item
+                    a.link-underline.link-underline-opacity-0(href='/admin') Panel de Administración
+                li.breadcrumb-item
+                    a.link-underline.link-underline-opacity-0(href='/admin/reservas') Reservas
+                li.breadcrumb-item.active(aria-current='page') Reserva
+
+        .row.g-3.mb-3
+            .col-md-7
+                label.form-label(for='requesterEmail') Email del solicitante
+                input#requesterEmail.form-control(type='email', name='requesterEmail', value=reservation.requesterEmail, readonly)
+            .col-md-5
+                label.form-label(for='requesterName') Nombre del solicitante
+                input#requesterName.form-control(type='text', name='requesterName', value=reservation.requesterName, readonly)
+            .col-md-4
+                label.form-label(for='roomId') Aula
+                input#roomId.form-control(type='text', name='roomId', value=reservation.room.name, readonly)
+            .col-md-4
+                label.form-label(for='startTime') Hora de inicio
+                input#startTime.form-control(type='text', name='startTime', value=reservation.startTime, readonly)
+            .col-md-4
+                label.form-label(for='endTime') Hora de fin
+                input#endTime.form-control(type='text', name='endTime', value=reservation.endTime, readonly)
+        
+            if reservation.status == 'pending'
+                .col-12
+                    .row
+                        .col-md-6.d-grid
+                            form(action='/admin/reservas/reserva', method='POST')
+                                input(type='hidden', name='id', value=reservation.id)
+                                input(type='hidden', name='status', value='accepted')
+                                button.btn.btn-success.w-100(type='submit') Aceptar
+                        .col-md-6.d-grid
+                            form(action='/admin/reservas/reserva', method='POST')
+                                input(type='hidden', name='id', value=reservation.id)
+                                input(type='hidden', name='status', value='rejected')
+                                button.btn.btn-danger.w-100(type='submit') Rechazar
+
+            else
+                .col-md-4
+                    label.form-label(for='status') Estado
+                    input#status.form-control(type='text', name='status', value=reservation.status, readonly)

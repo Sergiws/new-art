@@ -1,10 +1,9 @@
-import PageController from '../PageController.js';
 import AdminPageController from "../AdminPageController.js";
 import {Room} from '../../model/index.js';
 
-class RoomListAdminPageController extends PageController {
+class RoomListAdminPageController extends AdminPageController {
     constructor() {
-        super('admin/room-list-page');
+        super('admin/room-list-admin-page');
     }
 
     renderPage() {
